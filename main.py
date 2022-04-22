@@ -13,10 +13,10 @@ def main():
   # population.append(genes.Kromozom([[0,2],[1,4],[2,2],[3,0],[4,3],[5,1],[6,7],[7,7]], 0))
   #population.append(genes.Kromozom([[0,2],[1,4],[2,6],[3,0],[4,3],[5,1],[6,7],[7,5]], 0))
 
-  for i in range(0, len(population)):
-    intersectionCount = genes.crossIntersection(population[i].gene)
-    intersectionCount += genes.hvIntersection(population[i].gene)
-    population[i].rank += intersectionCount
+  for k in range(0, len(population)):
+    intersectionCount = genes.crossIntersection(population[k].gene)
+    intersectionCount += genes.hvIntersection(population[k].gene)
+    population[k].rank += intersectionCount
 
 
   ## Sort And Check if there is a solution in starting population
@@ -26,33 +26,28 @@ def main():
     exit()
 
   ## Print Listed Population 
-  for i in range(0, len(population)):
-    print(population[i].gene, population[i].rank)
+  for k in range(0, len(population)):
+    print(population[k].gene, population[k].rank)
 
   startAll = timer()
   crossQueue = itertools.combinations(population, 2)
 
+  count = 0
 
-  for kromozoms in crossQueue:
-    count = 0
+  for i in range(1, len(population)):
+    for j in range (0 , i):
+      print("\nFirst Gene Index: ", j, "Second Gene Index: ", i)
+      crossed = genes.cross(population[j], population[i])
 
-    # crossStartTime = timer()
-    crossed = genes.cross(kromozoms[0], kromozoms[1])
-    # crossEndTime = timer()
-    # print("Combine took: ", timedelta(seconds=crossEndTime-crossStartTime))
+      for k in crossed:
+        count += 1
 
-    for i in crossed:
-      count += 1
-
-      # checkCrossStartTime = timer()
-      intersectionCount = genes.crossIntersection(i)
-      intersectionCount += genes.hvIntersection(i)
-      # checkCrossEndTime = timer()
-      # print("Check took: ", timedelta(seconds=checkCrossEndTime-checkCrossStartTime))
-      if intersectionCount == 0:
-        endAll = timer()
-        print("\nIn", count, "Steps,", endAll-startAll, "Seconds\n Solution found: ", i)
-        exit()
+        intersectionCount = genes.crossIntersection(k)
+        intersectionCount += genes.hvIntersection(k)
+        if intersectionCount == 0:
+          endAll = timer()
+          print("\nIn", count, "Steps,", endAll-startAll, "Seconds\n Solution found: ", k)
+          exit()
 
 
 
