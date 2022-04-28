@@ -1,8 +1,8 @@
-import random
 import genes
 import itertools
 from timeit import default_timer as timer
 from datetime import timedelta
+from sys import exit
 
 
 population: genes.Kromozom = [] 
